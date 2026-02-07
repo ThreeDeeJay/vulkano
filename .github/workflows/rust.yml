@@ -11,6 +11,7 @@ on:
     paths-ignore:
       - '**.md'
   merge_group:
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -65,6 +66,7 @@ jobs:
         run: nix develop .#CI -c cargo test ${{ env.common_args }}
       - name: Build examples
         run: nix develop .#CI -c cargo build ${{ env.common_args }} --bins
+        
   msrv:
     strategy:
       matrix:
@@ -111,6 +113,8 @@ jobs:
           cmd-format: nix develop .#CI-MSRV -c {0}
       - name: Build libraries
         run: nix develop .#CI-MSRV -c cargo build ${{ env.common_args }} --lib
+      - name: List files
+        run: ls -R
   fmt:
     runs-on: ubuntu-latest
     steps:
